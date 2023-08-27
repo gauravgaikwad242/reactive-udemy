@@ -1,5 +1,9 @@
 package com.reactive.udemy.Util;
 
+import org.reactivestreams.Subscriber;
+
+import java.util.function.Consumer;
+
 public class Utility {
     public static void threadSleep(int seconds){
         try {
@@ -7,5 +11,14 @@ public class Utility {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Consumer<Object> onNext(){
+        return (e)->{
+            System.out.println("data received : data :- "+e);
+        };
+    }
+    public static Subscriber<Object> subscriber(){
+        return new CustomSubscriber();
     }
 }
