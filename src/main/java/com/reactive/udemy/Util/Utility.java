@@ -21,4 +21,8 @@ public class Utility {
     public static Subscriber<Object> subscriber(){
         return new CustomSubscriber();
     }
+
+    public static void printThread(String addon){
+        System.out.println(addon + " : "+Thread.currentThread().getName());
+    }
 }
