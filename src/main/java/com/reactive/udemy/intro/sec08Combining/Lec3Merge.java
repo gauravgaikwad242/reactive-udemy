@@ -1,41 +1,26 @@
 package com.reactive.udemy.intro.sec08Combining;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.stream.Stream;
 
 import com.reactive.udemy.Util.Utility;
 
 import reactor.core.publisher.Flux;
 
-public class Lec1StartWith {
+//TODO : didnt understand the diff between concatwith and mergewith
+public class Lec3Merge {
     public static void main(String[] args) {
-        
-/*
- * for typecasting in flux pipeline
- * .cast(String.class)
- * we can uses cast operator
- * 
- * 
- */
-        /*
-         * fist all the elements fromm the publisher in startsWith are drained or published
-         * then the core source is drained
-         */
-        Flux.generate((sink)->{
-            sink.next(getName1());
-        })
-        .startWith(getNamesFlux(3))
-        .take(5)
+        Flux.merge(getNamesFlux(7),getNamesFlux(5),getNamesFlux(3))
         .subscribe(Utility.subscriber());
 
-
-
+        Utility.threadSleep(10);
     }
-
+    
     public static Flux<String> getNamesFlux(int index){
         return Flux.generate((syncSink)->{
-            syncSink.next((int)(Math.random() * 10) + " "+getName());
+            syncSink.next(index+" "+(int)(Math.random() * 10) + " "+getName());
         })
+        .delayElements(Duration.ofSeconds((int)(Math.random() * 10)))
         .take(index)
         .cast(String.class);
     }
